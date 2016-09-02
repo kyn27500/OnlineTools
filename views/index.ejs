@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>在线工具</title>
+    <!-- <link rel='stylesheet' href='/stylesheets/style.css' /> -->
+    <script type="text/javascript">
+      function onClick(pId){
+        window.location.href = "?id="+pId;
+      }
+    </script>
+  </head>
+  <body>
+    <h1>在线工具</h1>
+    <!-- <p>工具使用</p> -->
+
+    <button style="width:150px;height:30px;" onclick="onClick(1)">Game5 copy csb</button>
+    <button style="width:150px;height:30px;" onclick="onClick(2)">按钮2</button>
+    <button style="width:150px;height:30px;" onclick="onClick(3)">按钮3</button>
+    <button style="width:150px;height:30px;" onclick="onClick(4)">按钮4</button>
+    <br></br>
+    <div id="text"><%= text %></div>
+  </body>
+</html>
