@@ -9,8 +9,17 @@ router.get('/', function(req, res, next) {
   var id = req.query.id;
   resp = res;
   // 1-2拷贝文件
-  if(id<2){
+  if(id<=2){
   	copy(id);
+  }
+  else if(id<=4){
+  	var scriptPath = [
+  		"/routes/logcat.sh",
+  		"/routes/package.sh"
+  	];
+
+  	var fullPath = process.cwd()+scriptPath[id-3];
+  	execShell(fullPath);
   }
   else{
   	res.render('index', {text:"欢迎使用在线工具！"});
@@ -24,7 +33,7 @@ function copy(id){
 
 	var copyPath = [
 		["/Users/koba/Documents/mobile_client/meishu/ui/GameAllStar_new/res/res/csb","/Users/koba/Documents/Game/game5/res/csb",".csb"],
-		["/Users/koba/Documents/mobile_client/meishu/ui/GameAllStar_new/res/res/","/Users/koba/Documents/test"]
+		["/Users/koba/Documents/quanmingxing/res/res/an","/Users/koba/Documents/Game/game5/res/an",".csb"]
 	];
 
 	var py = process.cwd()+"/routes/A-CopyCsb.py";
@@ -40,6 +49,22 @@ function execPy(pCmd,pCallback){
 	exec('python '+pCmd,function(error,stdout,stderr){
 	    if(stdout.length >1){
 	        printToHtml(stdout);
+	    } else {
+	        console.log('you don\'t offer args');
+	    }
+	    if(error) {
+	        printToHtml("\nerror:"+stderr);
+	    }
+	});
+}
+
+function execShell(pCmd,pCallback){
+
+	var exec = require('child_process').exec;
+
+	exec('sh '+pCmd,function(error,stdout,stderr){
+	    if(stdout.length >1){
+	        printToHtml("程序已启动！");
 	    } else {
 	        console.log('you don\'t offer args');
 	    }
