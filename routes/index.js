@@ -12,6 +12,7 @@ router.get('/', function(req, res, next) {
   if(id<=2){
   	copy(id);
   }
+  // 4.打印LUA日志，5.打Android包
   else if(id<=4){
   	var scriptPath = [
   		"/routes/logcat.sh",
@@ -21,6 +22,22 @@ router.get('/', function(req, res, next) {
   	var fullPath = process.cwd()+scriptPath[id-3];
   	execShell(fullPath);
   }
+  // 打开 adb shell
+  else if (id==5){
+  	var fullPath = process.cwd()+ "/routes/openAdbShell.sh";
+  	execShell(fullPath);
+  }
+  // 拷贝东西
+  else if (id <=8){
+  	var fileDir = "/Users/koba/Documents/Game/game5/"
+  	var phoneDir = "/sdcard/shouyou/apps/game5/"
+  	var copyFileName = ["cocos","res","src"]
+
+  	var scriptPath = process.cwd()+ "/routes/copyToPhone.sh";
+  	var cmd = scriptPath + " " + fileDir+copyFileName[id-6]+" " + phoneDir+copyFileName[id-6]
+  	execShell(cmd);
+  }
+
   else{
   	res.render('index', {text:"欢迎使用在线工具！"});
   }
@@ -28,7 +45,7 @@ router.get('/', function(req, res, next) {
 });
 
 
-
+// 拷贝文件
 function copy(id){
 
 	var copyPath = [
@@ -41,7 +58,7 @@ function copy(id){
 	execPy(cmd);
 }
 
-
+// 执行python 文件
 function execPy(pCmd,pCallback){
 
 	var exec = require('child_process').exec;
@@ -58,6 +75,7 @@ function execPy(pCmd,pCallback){
 	});
 }
 
+// 执行shell文件
 function execShell(pCmd,pCallback){
 
 	var exec = require('child_process').exec;
@@ -71,7 +89,7 @@ function execShell(pCmd,pCallback){
 	    if(error) {
 	        printToHtml("\nerror:"+stderr);
 	    }
-	});
+	}); 
 }
 
 

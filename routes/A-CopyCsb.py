@@ -21,16 +21,6 @@ def copyImage(pPath,newPath):
 					os.makedirs(targetFile)
 				copyImage(sourceFile,targetFile)
 
-def copyCsb(pPath):
-	for file in os.listdir(pPath):
-		sourceFile = os.path.join(pPath,file)
-		targetFile = os.path.join(newPath,file)
-		if os.path.isfile(sourceFile):
-
-			if not (sourceFile.find(".svn") > 0 or sourceFile.find(".DS_Store") > 0):
-				print(targetFile)
-				open(targetFile, "wb").write(open(sourceFile, "rb").read())
-
 def main():
 
 	# print(sys.argv)
