@@ -39,12 +39,13 @@ def findfiles ( dirPath ):
             findfiles(filePath)
         else:
 #             print(filePath)
-            size = os.path.getsize(filePath)
-            arr= files.get(size)
-            if arr:
-                files[size].append(filePath)
-            else:
-                files[size] = [filePath]
+            if not (filePath.find(".svn") > 0 or filePath.find(".DS_Store") > 0):
+                size = os.path.getsize(filePath)
+                arr= files.get(size)
+                if arr:
+                    files[size].append(filePath)
+                else:
+                    files[size] = [filePath]
 
 def checksamefile():
     

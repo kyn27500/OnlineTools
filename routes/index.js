@@ -50,7 +50,7 @@ function copy(id){
 
 	var copyPath = [
 		["/Users/koba/Documents/mobile_client/meishu/ui/GameAllStar_new/res/res/csb","/Users/koba/Documents/Game/game5/res/csb",".csb"],
-		["/Users/koba/Documents/quanmingxing/res/res/an","/Users/koba/Documents/Game/game5/res/an",".csb"]
+		["/Users/koba/Documents/meishu/CocosAnimation/GoldGame/quanmingxing_10.8/quanmingxing\\(3\\)/quanmingxing/res/res/an/","/Users/koba/Documents/Game/game5/res/an",".csb"]
 	];
 
 	var py = process.cwd()+"/routes/A-CopyCsb.py";
