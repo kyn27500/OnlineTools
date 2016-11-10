@@ -3,14 +3,24 @@ var router = express.Router();
 
 /* GET home page. */
 var resp;
+var gamenum = 5;
 
 router.get('/', function(req, res, next) {
 
   var id = req.query.id;
+  if (req.query.gameNum){
+    gamenum = req.query.gameNum;
+  }
+  
   resp = res;
   // 1-2拷贝文件
   if(id<=2){
-  	copy(id);
+
+    var copyPath = [
+      ["/Users/koba/Documents/mobile_client/meishu/ui/GameAllStar_new/res/res/csb","/Users/koba/Documents/Game/game5/res/csb"],
+      ["/Users/koba/Documents/meishu/CocosAnimation/GoldGame/quanmingxing_10.8/quanmingxing\\(3\\)/quanmingxing/res/res/an/","/Users/koba/Documents/Game/game5/res/an"]
+    ];
+  	copy(copyPath[id-1][0],copyPath[id-1][1]);
   }
   // 4.打印LUA日志，5.打Android包
   else if(id<=4){
@@ -29,8 +39,8 @@ router.get('/', function(req, res, next) {
   }
   // 拷贝东西
   else if (id <=8){
-  	var fileDir = "/Users/koba/Documents/Game/game5/"
-  	var phoneDir = "/sdcard/shouyou/apps/game5/"
+  	var fileDir = "/Users/koba/Documents/Game/game"+gamenum+"/"
+  	var phoneDir = "/sdcard/shouyou/apps/game"+gamenum+"/"
   	var copyFileName = ["cocos","res","src"]
 
   	var scriptPath = process.cwd()+ "/routes/copyToPhone.sh";
@@ -38,23 +48,34 @@ router.get('/', function(req, res, next) {
   	execShell(cmd);
   }
 
+  else if(id <=11){
+    var fileDir = "/Users/koba/Documents/game7_20160824/"
+    var phoneDir = "/sdcard/shouyou/apps/game7/"
+    var copyFileName = ["cocos","res","src"]
+
+    var scriptPath = process.cwd()+ "/routes/copyToPhone.sh";
+    var cmd = scriptPath + " " + fileDir+copyFileName[id-9]+" " + phoneDir+copyFileName[id-9]
+    execShell(cmd);
+  } 
+
+  else if (id == 12 ){
+    var sourcePath = "/Users/koba/Documents/molisishe_css/res/res/cube/csb"
+    var tagetPath = "/Users/koba/Documents/game7_20160824/res/cube/csb"
+    copy(sourcePath,tagetPath)
+  } 
   else{
-  	res.render('index', {text:"欢迎使用在线工具！"});
+
+  	res.render('index', {text:"欢迎使用在线工具！",gameNum:gamenum});
   }
 
 });
 
 
 // 拷贝文件
-function copy(id){
-
-	var copyPath = [
-		["/Users/koba/Documents/mobile_client/meishu/ui/GameAllStar_new/res/res/csb","/Users/koba/Documents/Game/game5/res/csb",".csb"],
-		["/Users/koba/Documents/meishu/CocosAnimation/GoldGame/quanmingxing_10.8/quanmingxing\\(3\\)/quanmingxing/res/res/an/","/Users/koba/Documents/Game/game5/res/an",".csb"]
-	];
+function copy(sourcePath,tagetPath){
 
 	var py = process.cwd()+"/routes/A-CopyCsb.py";
-	var cmd = py+' '+copyPath[id-1][0]+' '+copyPath[id-1][1]+' '+copyPath[id-1][2]
+	var cmd = py+' '+sourcePath+' '+tagetPath
 	execPy(cmd);
 }
 
@@ -96,7 +117,7 @@ function execShell(pCmd,pCallback){
 // print html
 function printToHtml(ptext){
 	console.log(ptext);
-	resp.render('index', {text:ptext});
+	resp.render('index', {text:ptext,gameNum:gamenum});
 }
 
 module.exports = router;
