@@ -63,6 +63,14 @@ router.get('/', function(req, res, next) {
     var tagetPath = "/Users/koba/Documents/game7_20160824/res/cube/csb"
     copy(sourcePath,tagetPath)
   } 
+
+  else if(id == 13){
+    // 一键更新 PopupNetLayer
+    var basePath = ""
+    var svnPath = [
+      "/Users/koba/Documents/Game/"
+    ]
+  } 
   else{
 
   	res.render('index', {text:"欢迎使用在线工具！",gameNum:gamenum});
