@@ -1,4 +1,4 @@
- #coding=utf-8
+# -*- coding: UTF-8 -*-
 '''
 一键更新，更新最新的源文件，然后复制到指定目录，上传svn (本文件功能只限单个文件使用)
 作者：kongyanan
@@ -9,9 +9,11 @@
 import svn
 import sys
 
-
 source_file = "/Users/koba/Documents/Game/common/popup/PopupNetLayer.lua"
 target_file = "/Users/koba/Documents/Game/common/popup/PopupNetLayer1.lua"
+
+source_file = "/Users/wangmeili/Documents/workspace/svnnet/kyn27500.game/src/DB_004.lua"
+target_file = "/Users/wangmeili/Documents/workspace/svnnet/kyn27500.game/db/DB_005.lua"
 
 # 拷贝 文件夹下的东西到指定文件夹
 def copyDir(pPath,newPath):
@@ -38,17 +40,28 @@ def copyFile(pTargetFile,pSourceFile):
 def getLastChangeVersion(pSvnPath):
 	cmd_svninfo = "svn info " + pSvnPath + " | grep 'Last Changed Rev'"
 	svninfo = svn.execSys(cmd_svninfo)
-	
 	return svninfo[1][18:]
 
+# 获取提交日志
+def getLogMessage(pSvnPath,pverison):
+	cmd_svnlog = "svn log " + pSvnPath + " -r " + pverison
+	svninfo = svn.execSys(cmd_svnlog)
+	return svninfo[1]
 
 if __name__ == '__main__':
 
 	# version = svn.svnupdate(source_file)
 	# version = svn.getVesionCode(source_file)
 	# print(version)
-	lastversion = getLastChangeVersion(source_file)
-	print(lastversion)
 
+	# svn更新版本
+	svn.svnupdate(source_file)
+	lastversion = getLastChangeVersion(source_file)
+	svnlog = "Auto update,log --> %s version " % lastversion
+
+	copyFile(target_file,source_file)
+	isSuccess = svn.svncommit(target_file,svnlog)
+	if isSuccess:
+		print(target_file)
 
 
