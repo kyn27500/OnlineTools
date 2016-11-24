@@ -66,10 +66,16 @@ router.get('/', function(req, res, next) {
 
   else if(id == 13){
     // 一键更新 PopupNetLayer
-    var basePath = ""
     var svnPath = [
-      "/Users/koba/Documents/Game/"
+      "/Users/koba/Documents/Game/common/popup/PopupNetLayer.lua",
+      "/Users/koba/Documents/Game/game5/src/app/views/common/popup/PopupNetLayer.lua",
+      "/Users/koba/Documents/game7_20160824/src/app/views/common/popup/PopupNetLayer.lua"
     ]
+
+    var py = process.cwd()+"/routes/update_common.py";
+    var cmd = py+' '+svnPath
+    execPy(cmd)
+
   } 
   else{
 

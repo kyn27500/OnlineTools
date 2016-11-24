@@ -10,10 +10,8 @@ import svn
 import sys
 
 source_file = "/Users/koba/Documents/Game/common/popup/PopupNetLayer.lua"
-target_file = "/Users/koba/Documents/Game/common/popup/PopupNetLayer1.lua"
+target_file = "/Users/koba/Documents/workspace/testsvn/src/PopupNetLayer.lua"
 
-source_file = "/Users/wangmeili/Documents/workspace/svnnet/kyn27500.game/src/DB_004.lua"
-target_file = "/Users/wangmeili/Documents/workspace/svnnet/kyn27500.game/db/DB_005.lua"
 
 # 拷贝 文件夹下的东西到指定文件夹
 def copyDir(pPath,newPath):
@@ -40,7 +38,7 @@ def copyFile(pTargetFile,pSourceFile):
 def getLastChangeVersion(pSvnPath):
 	cmd_svninfo = "svn info " + pSvnPath + " | grep 'Last Changed Rev'"
 	svninfo = svn.execSys(cmd_svninfo)
-	return svninfo[1][18:]
+	return svninfo[1][18:-1]
 
 # 获取提交日志
 def getLogMessage(pSvnPath,pverison):
@@ -50,18 +48,35 @@ def getLogMessage(pSvnPath,pverison):
 
 if __name__ == '__main__':
 
-	# version = svn.svnupdate(source_file)
-	# version = svn.getVesionCode(source_file)
-	# print(version)
+	# 外部传参数
+	if len(sys.argv)==2:
+		svnPath = sys.argv[1].split(',')
 
-	# svn更新版本
-	svn.svnupdate(source_file)
-	lastversion = getLastChangeVersion(source_file)
-	svnlog = "Auto update,log --> %s version " % lastversion
+		source_file = svnPath[0]
+		# svn更新版本
+		svn.svnupdate(source_file)
+		lastversion = getLastChangeVersion(source_file)
+		svnlog = "rebot commit,log information --> %s version" % lastversion
 
-	copyFile(target_file,source_file)
-	isSuccess = svn.svncommit(target_file,svnlog)
-	if isSuccess:
-		print(target_file)
+		print("最新版本号："+lastversion)
+
+		for target_file in svnPath:
+			if target_file != source_file:
+				copyFile(target_file,source_file)
+				isSuccess = svn.svncommit(target_file,svnlog)
+				if isSuccess:
+					print("已更新: "+target_file)
+				else:
+					print("未更新："+target_file)
+	else:
+		# svn更新版本,本地测试
+		svn.svnupdate(source_file)
+		lastversion = getLastChangeVersion(source_file)
+		svnlog = "rebot commit,log information --> %s version" % lastversion
+
+		copyFile(target_file,source_file)
+		isSuccess = svn.svncommit(target_file,svnlog)
+		if isSuccess:
+			print("已更新: "+target_file)
 
 
