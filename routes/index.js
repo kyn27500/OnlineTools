@@ -72,11 +72,22 @@ router.get('/', function(req, res, next) {
       "/Users/koba/Documents/game7_20160824/src/app/views/common/popup/PopupNetLayer.lua"
     ]
 
-    var py = process.cwd()+"/routes/update_common.py";
+    var py = process.cwd()+"/routes/svnToSvn.py";
     var cmd = py+' '+svnPath
     execPy(cmd)
 
-  } 
+  }
+  else if(id==14){
+
+    var sourcePath = "/Users/koba/Documents/meishu/CocosAnimation/AllStarGame/PatternAction/res/res"
+    var tagetPath = "/Users/koba/Documents/Game/game5/res"
+
+    var svnPath = [sourcePath,tagetPath]
+    var py = process.cwd()+"/routes/svnToSvn.py";
+    var cmd = py+' '+svnPath
+    execPy(cmd)
+
+  }
   else{
 
   	res.render('index', {text:"欢迎使用在线工具！",gameNum:gamenum});

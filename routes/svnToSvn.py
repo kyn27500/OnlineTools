@@ -8,6 +8,7 @@
 # 导入svn 包
 import svn
 import sys
+import os
 
 source_file = "/Users/koba/Documents/Game/common/popup/PopupNetLayer.lua"
 target_file = "/Users/koba/Documents/workspace/testsvn/src/PopupNetLayer.lua"
@@ -15,24 +16,21 @@ target_file = "/Users/koba/Documents/workspace/testsvn/src/PopupNetLayer.lua"
 
 # 拷贝 文件夹下的东西到指定文件夹
 def copyDir(pPath,newPath):
-	for file in os.listdir(pPath):
-		sourceFile = os.path.join(pPath,file)
-		targetFile = os.path.join(newPath,file)
-		if os.path.isfile(sourceFile):
-			if not (sourceFile.find(".svn") > 0 or sourceFile.find(".DS_Store") > 0):
-				open(targetFile, "wb").write(open(sourceFile, "rb").read()) 
-				copyFile(targetFile,sourceFile)
-		else:
-			if not (sourceFile.find(".svn") > 0 or sourceFile.find(".DS_Store") > 0):
-				# print(targetFile)
-				if not os.path.exists(targetFile):
-					# print(targetFile)
-					os.makedirs(targetFile)
-				copyDir(sourceFile,targetFile)
 
-# 拷贝文件
-def copyFile(pTargetFile,pSourceFile):
-	open(pTargetFile, "wb").write(open(pSourceFile, "rb").read())
+	if (pPath.find(".svn") > 0 or pPath.find(".DS_Store") > 0):
+		return
+
+	if os.path.isfile(pPath):
+		open(newPath, "wb").write(open(pPath, "rb").read())
+	else:
+		for file in os.listdir(pPath):
+			sourceFile = os.path.join(pPath,file)
+			targetFile = os.path.join(newPath,file)
+			if os.path.isdir(sourceFile):
+				if not os.path.exists(targetFile):
+					os.makedirs(targetFile)
+			copyDir(sourceFile,targetFile)
+
 
 # 获取最后一个版本号
 def getLastChangeVersion(pSvnPath):
@@ -51,7 +49,6 @@ if __name__ == '__main__':
 	# 外部传参数
 	if len(sys.argv)==2:
 		svnPath = sys.argv[1].split(',')
-
 		source_file = svnPath[0]
 		# svn更新版本
 		svn.svnupdate(source_file)
@@ -62,7 +59,8 @@ if __name__ == '__main__':
 
 		for target_file in svnPath:
 			if target_file != source_file:
-				copyFile(target_file,source_file)
+				copyDir(source_file,target_file)
+				
 				isSuccess = svn.svncommit(target_file,svnlog)
 				if isSuccess:
 					print("已更新: "+target_file)
@@ -74,7 +72,7 @@ if __name__ == '__main__':
 		lastversion = getLastChangeVersion(source_file)
 		svnlog = "rebot commit,log information --> %s version" % lastversion
 
-		copyFile(target_file,source_file)
+		copyDir(target_file,source_file)
 		isSuccess = svn.svncommit(target_file,svnlog)
 		if isSuccess:
 			print("已更新: "+target_file)
