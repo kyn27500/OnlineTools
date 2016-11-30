@@ -18,7 +18,7 @@ router.get('/', function(req, res, next) {
 
     var copyPath = [
       ["/Users/koba/Documents/mobile_client/meishu/ui/GameAllStar_new/res/res/csb","/Users/koba/Documents/Game/game5/res/csb"],
-      ["/Users/koba/Documents/meishu/CocosAnimation/GoldGame/quanmingxing_10.8/quanmingxing\\(3\\)/quanmingxing/res/res/an/","/Users/koba/Documents/Game/game5/res/an"]
+      ["/Users/koba/Documents/meishu/CocosAnimation/AllStarGame/quanmingxing/res/res","/Users/koba/Documents/Game/game5/res"]
     ];
   	copy(copyPath[id-1][0],copyPath[id-1][1]);
   }
@@ -88,6 +88,13 @@ router.get('/', function(req, res, next) {
     execPy(cmd)
 
   }
+  else if(id==15){
+
+    var apkPath = "/Users/koba/Downloads/abc.apk"
+    var scriptPath = process.cwd()+ "/routes/doshell.sh";
+    var cmd = scriptPath + " adb install /Users/koba/Downloads/abc.apk"
+    execShell(cmd);
+  }
   else{
 
   	res.render('index', {text:"欢迎使用在线工具！",gameNum:gamenum});
@@ -99,7 +106,7 @@ router.get('/', function(req, res, next) {
 // 拷贝文件
 function copy(sourcePath,tagetPath){
 
-	var py = process.cwd()+"/routes/A-CopyCsb.py";
+	var py = process.cwd()+"/routes/copy.py";
 	var cmd = py+' '+sourcePath+' '+tagetPath
 	execPy(cmd);
 }
