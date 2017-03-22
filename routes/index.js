@@ -17,7 +17,7 @@ router.get('/', function(req, res, next) {
   if(id<=2){
 
     var copyPath = [
-      ["/Users/koba/Documents/mobile_client/meishu/ui/GameAllStar_new/res/res/csb","/Users/koba/Documents/Game/game5/res/csb"],
+      ["/Users/koba/Documents/meishu/CocosAnimation/AllStarGame/GameAllStar_UI/res/res/csb","/Users/koba/Documents/Game/game5/res/csb"],
       ["/Users/koba/Documents/meishu/CocosAnimation/AllStarGame/quanmingxing/res/res","/Users/koba/Documents/Game/game5/res"]
     ];
   	copy(copyPath[id-1][0],copyPath[id-1][1]);
@@ -69,7 +69,7 @@ router.get('/', function(req, res, next) {
     var svnPath = [
       "/Users/koba/Documents/Game/common/popup/PopupNetLayer.lua",
       "/Users/koba/Documents/Game/game5/src/app/views/common/popup/PopupNetLayer.lua",
-      "/Users/koba/Documents/game7_20160824/src/app/views/common/popup/PopupNetLayer.lua"
+      "/Users/koba/Documents/Game/game7/src/app/views/common/popup/PopupNetLayer.lua"
     ]
 
     var py = process.cwd()+"/routes/svnToSvn.py";
@@ -94,6 +94,19 @@ router.get('/', function(req, res, next) {
     var scriptPath = process.cwd()+ "/routes/doshell.sh";
     var cmd = scriptPath + " adb install /Users/koba/Downloads/abc.apk"
     execShell(cmd);
+  }
+  else if(id==16){
+    // 一键更新 DutyManager
+    var svnPath = [
+      "/Users/koba/Documents/Game/common/DutyManager.lua",
+      "/Users/koba/Documents/Game/game5/src/app/views/common/DutyManager.lua",
+      "/Users/koba/Documents/Game/game5/src/app/views/common/DutyManager.lua"
+    ]
+
+    var py = process.cwd()+"/routes/svnToSvn.py";
+    var cmd = py+' '+svnPath
+    execPy(cmd)
+
   }
   else{
 
