@@ -100,7 +100,7 @@ router.get('/', function(req, res, next) {
     var svnPath = [
       "/Users/koba/Documents/Game/common/DutyManager.lua",
       "/Users/koba/Documents/Game/game5/src/app/views/common/DutyManager.lua",
-      "/Users/koba/Documents/Game/game5/src/app/views/common/DutyManager.lua"
+      "/Users/koba/Documents/Game/game7/src/app/views/common/DutyManager.lua"
     ]
 
     var py = process.cwd()+"/routes/svnToSvn.py";
